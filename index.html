@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Input</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: #ffffff; /* White background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Blue */
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Dark blue on hover */
+        }
+        .btn-primary:active {
+            background-color: #0056b3; /* Dark blue on click */
+            border-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-6 form-container">
+            <form id="dataForm">
+                <div class="form-group">
+                    <label for="cortex">Cortex (comma-separated list):</label>
+                    <input type="text" class="form-control" id="cortex" pattern ="^\d+(,\d+)*$" required name="cortex">
+                    <div id="cortexError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="scope">Scope:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="scope" id="scope_account" value="account" checked>
+                        <label class="form-check-label" for="scope_account">Account</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="scope" id="scope_product" value="product">
+                        <label class="form-check-label" for="scope_product">Product</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="product_sync">Product Sync:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="product_sync" id="product_sync_true" value="true" checked>
+                        <label class="form-check-label" for="product_sync_true">True</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="product_sync" id="product_sync_false" value="false">
+                        <label class="form-check-label" for="product_sync_false">False</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="do_not_skip">Do Not Skip (true or false):</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="do_not_skip" id="do_not_skip_true" value="true" checked>
+                        <label class="form-check-label" for="do_not_skip_true">True</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="do_not_skip" id="do_not_skip_false" value="false">
+                        <label class="form-check-label" for="do_not_skip_false">False</label>
+                    </div>
+                   
+                </div>
+                <button type="sumbit" class="btn btn-primary" >Get Data</button>
+            </form>
+            <div id="note-container" style="margin-top: 20px;">
+                <p><strong>Important Parameters:</strong></p>
+               
+                <p><strong>Scope:</strong><br>
+                    "account" - we give a list of cortexes to sync data. (Widely used)<br>
+                    "product": we sync for all cortexes belonging to that product type in entire production region (Rarely used - Exercise caution)</p>
+                <p><strong>Product Sync:</strong><br>
+                    "true": we first read data from product via channel api’s and sync to system42 and then from system42 to elasticsearch and QnA ML service<br>
+                    "false": sync data from system42 to elasticsearch and QnA ML service directly</p>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Include the JavaScript file -->
+    <script src="index.js"></script>
+</body>
+</html>
