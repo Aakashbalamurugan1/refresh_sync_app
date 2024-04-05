@@ -1,35 +1,22 @@
 function getData() {
     console.log("hi")
     // Retrieve values from the form
-    var cortexInput = document.getElementById("cortex").value;
-    var cortexList = cortexInput.split(",").map(cortex => cortex.trim());
+    var Input = document.getElementById("cortex").value;
+    var List = cortexInput.split(",").map(cortex => cortex.trim());
     var scope = document.querySelector('input[name="scope"]:checked').value;
     var productSync =document.querySelector('input[name="product_sync"]:checked').value;
     var doNotSkip = document.querySelector('input[name="do_not_skip"]:checked').value;
-    var hasError = false;
 
 
-    // Validate Cortex (comma-separated list)
     if (!cortexInput) {
         document.getElementById('cortexError').textContent = 'Please enter cortex values';
-        hasError = true;
-    } else {
-        // Split the cortex input and remove empty values
-        var cortexList = cortexInput.split(',').map(cortex => cortex.trim()).filter(Boolean);
-        if (cortexList.length === 0) {
-            document.getElementById('cortexError').textContent = 'Please enter valid cortex values';
-            hasError = true;
+    } else {  
+        if (List.length === 0) {
+            document.getElementById('cortexError').textContent = 'Please enter valid cortex values';     
         }
     }
-    if (hasError) {
-        return;
-    }
-    // Display the retrieved values
- 
 
-
-     data = {
-        "cortex_list": cortexList,
+    data = {
         "scope": scope,
         "product_sync": productSync,
         "do_not_skip": doNotSkip,
@@ -37,6 +24,13 @@ function getData() {
             "elasticsearch",
             "qna_serv"
         ]
+    }
+ 
+    if (scope == "account") {
+        data.account_list=List;
+    }
+    if (scope == "product") {
+        data.cortex_list=List;
     }
 
     const url = 'your_api_endpoint_here';
@@ -77,7 +71,17 @@ function postData(url, headers, data) {
     });
 }
 
+document.getElementById("scope_account").addEventListener("change", updateCortexOrAccount);
+document.getElementById("scope_product").addEventListener("change", updateCortexOrAccount);
 
+function updateCortexOrAccount() {
+
+    if(document.querySelector('input[name="scope"]:checked').value=="account"){ 
+        document.getElementById("cortexOrAccount").innerText = "Account ids (comma-separated list):"
+     }else if (document.querySelector('input[name="scope"]:checked').value=="product"){
+         document.getElementById("cortexOrAccount").innerText = "Cortex ids (comma-separated list):"
+     }
+}
 
 
 document.getElementById("dataForm").addEventListener("submit", e => {
